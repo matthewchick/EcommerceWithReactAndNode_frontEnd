@@ -1,5 +1,6 @@
 //Layout Component
 import React from 'react';
+import Menu from './NavMenu';
 
 /**
  * put title, description, className and children in the props
@@ -8,6 +9,7 @@ import React from 'react';
  */
 const Layout = ({ title = 'Title', description = "Description", className, children }) => (
     <div>
+        <Menu />
         <div className="jumbotron">
             <h2>{title}</h2>
             <p className="lead">{description}</p>
