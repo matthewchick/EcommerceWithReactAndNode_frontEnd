@@ -11,10 +11,35 @@ const Signup = () => {
         password: '',
         error: '',
         success: false
-    })
+    });
+
+    const {name, email, password} = values;   //object destructing
 
     const handleChange = name => event => {
         setValues({...values, error: false, [name]: event.target.value})
+    }
+
+    const signup = (user) => {
+        console.log(user.name, user.email, user.password);
+        fetch(`${API}/signup`, {
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    };
+
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        signup({name, email, password});
     }
 
     const signUpForm = () => (
@@ -31,7 +56,7 @@ const Signup = () => {
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" />
             </div>
-            <button className="btn btn-primary">Submit</button>
+            <button onClick={clickSubmit} className="btn btn-primary">Submit</button>
         </form>
     )
     // pass title, description and className into props to Layout 
