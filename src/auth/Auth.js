@@ -2,11 +2,13 @@
 import { API } from '../config';
 
 export const isAuthenticated = () => {
-    if (typeof window !== "undefined") {
+    
+    if (typeof window == 'undefined') {
         return false;
     }
     if (localStorage.getItem("jwt")) {
-        return JSON.parse(localStorage.getItem("jwt"));
+        // console.log('User', JSON.parse(localStorage.getItem("jwt")));
+        return JSON.parse(localStorage.getItem("jwt"));  //contain user information
     } else {
         return false;
     }
@@ -38,7 +40,7 @@ export const signout = (next) => {
 }
 
 export const signin = (user) => {
-    console.log(user.email, user.password);
+    // console.log(user.email, user.password);
     // use return before fetch otherwise TypeError: Cannot read property 'then' of undefined
     return fetch(`${API}/signin`, {
         method: "POST",

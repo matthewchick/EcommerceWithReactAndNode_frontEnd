@@ -29,8 +29,13 @@ const Menu = ({history}) => (
                     Home
                 </Link>
             </li>
+            <li className="nav-item">               
+                <Link className="nav-link" style={isActive(history, '/users/dashboard')} to="/users/dashboard">  
+                    Dashboard
+                </Link>
+            </li>
             {!isAuthenticated() && (
-                <div>
+                <Fragment>
                     <li className="nav-item">
                         <Link className="nav-link" style={isActive(history, '/signin')} to="/signin">
                             SignIn
@@ -41,7 +46,7 @@ const Menu = ({history}) => (
                             SignUp
                         </Link>
                     </li>
-                </div>
+                </Fragment>
             )}
             {isAuthenticated() && (
                 <li className="nav-item">
