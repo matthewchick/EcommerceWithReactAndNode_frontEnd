@@ -2,7 +2,7 @@
 import React, { useState } from 'react';    //use react hook
 import { Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { signin } from '../auth/Auth';
+import { signin, authenticate } from '../auth/Auth';
 
 const Signin = () => {
 
@@ -31,13 +31,15 @@ const Signin = () => {
                 console.log(data.error);
                 setValues({...values, error: data.error, loading: false})
             } else {
-                setValues({
-                    ...values,               
-                    redirectToReferrer: true
-                })
+                authenticate(data, () => {
+                    setValues({
+                        ...values,               
+                        redirectToReferrer: true
+                    });
+                });
             }
-        })
-    }
+        });
+    };
     // component functions
     const signUpForm = () => (
         <form>

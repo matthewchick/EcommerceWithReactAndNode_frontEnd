@@ -5,7 +5,8 @@ import React from 'react';
  * simply it connects component to the router.
  * Use Link, not necessary to reload index.html when link to other pages
  */
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom';
+import { signout } from '../auth/Auth';
 
 const isActive = (history, path) => { 
     if (history.location.pathname === path) {
@@ -37,6 +38,19 @@ const Menu = ({history}) => (
                 <Link className="nav-link" style={isActive(history, '/signup')} to="/signup">
                     SignUp
                 </Link>
+            </li>
+            <li className="nav-item">
+                <span 
+                    className="nav-link" 
+                    style={{cursor: 'pointer', color: '#ffffff'}} 
+                    onClick={()=> 
+                        signout(() => {
+                            history.push('/');
+                        })
+                    }
+                >
+                    SignOut
+                </span>
             </li>
         </ul>
     </div>
