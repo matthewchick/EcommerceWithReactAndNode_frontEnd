@@ -5,7 +5,7 @@ import { isAuthenticated } from '../auth/Auth';
 
 const AdminDashboard = () => {
     const {user: {_id, name, email, role}} = isAuthenticated();
-    const adminLinks = () => {
+    const AdminLinks = () => {
         return (
             <div className="card">
                 <h4 className="card-header">Admin Links</h4>
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
                     {AdminLinks()}
                 </div>
                 <div className="col-9">
-                    {adminInfo()}
+                    {AdminInfo()}
                 </div>         
             </div>   
         </Layout>
