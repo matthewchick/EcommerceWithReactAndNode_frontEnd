@@ -1,13 +1,25 @@
 
 import { API } from '../config';
 
+export const isAuthenticated = () => {
+    if (typeof window !== "undefined") {
+        return false;
+    }
+    if (localStorage.getItem("jwt")) {
+        return JSON.parse(localStorage.getItem("jwt"));
+    } else {
+        return false;
+    }
+};
+
 // here next is callback function
 export const authenticate = (data, next) => {
     if (typeof window !== 'undefined') {
         localStorage.setItem('jwt', JSON.stringify(data));
         next();
     }
-}
+};
+
 // use next callback function to redirect to another page
 export const signout = (next) => {
     if (typeof window !== 'undefined') {

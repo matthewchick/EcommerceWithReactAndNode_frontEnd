@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';    //Fragment is used to fix <div></div>
 /**
  * withRouter is a higher order component that will pass closest route's match, 
  * current location, and history props to the wrapped component whenever it renders. 
@@ -6,7 +6,7 @@ import React from 'react';
  * Use Link, not necessary to reload index.html when link to other pages
  */
 import { Link, withRouter } from 'react-router-dom';
-import { signout } from '../auth/Auth';
+import { signout, isAuthenticated } from '../auth/Auth';
 
 const isActive = (history, path) => { 
     if (history.location.pathname === path) {
@@ -29,17 +29,22 @@ const Menu = ({history}) => (
                     Home
                 </Link>
             </li>
-            <li className="nav-item">
-                <Link className="nav-link" style={isActive(history, '/signin')} to="/signin">
-                    SignIn
-                </Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" style={isActive(history, '/signup')} to="/signup">
-                    SignUp
-                </Link>
-            </li>
-            <li className="nav-item">
+            {!isAuthenticated() && (
+                <div>
+                    <li className="nav-item">
+                        <Link className="nav-link" style={isActive(history, '/signin')} to="/signin">
+                            SignIn
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" style={isActive(history, '/signup')} to="/signup">
+                            SignUp
+                        </Link>
+                    </li>
+                </div>
+            )}
+            {isAuthenticated() && (
+                <li className="nav-item">
                 <span 
                     className="nav-link" 
                     style={{cursor: 'pointer', color: '#ffffff'}} 
@@ -52,6 +57,7 @@ const Menu = ({history}) => (
                     SignOut
                 </span>
             </li>
+            ) }         
         </ul>
     </div>
 );
