@@ -1,10 +1,15 @@
 import React from 'react';
 import Layout from '../core/Layout';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { isAuthenticated } from '../auth/Auth';
 
 const Dashboard = () => {
     const {user: {_id, name, email, role}} = isAuthenticated();
+
+    //To prevent from typing localhost:3000/users/dashboard
+    if (role === 1) {
+        return <Redirect to="/admin/dashboard" />
+    }
     const userLinks = () => {
         return (
             <div className="card">

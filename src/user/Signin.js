@@ -75,9 +75,9 @@ const Signin = () => {
             }  else {
                 return <Redirect to="/users/dashboard" />  // redirect to users dashboard  
             } 
-            if (isAuthenticated()){
+            /* if (isAuthenticated()){
                 return <Redirect to="/" />
-            }
+            } */
         }
     }
 
