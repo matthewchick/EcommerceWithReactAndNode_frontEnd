@@ -1,5 +1,6 @@
 import { API } from '../config';
 
+
 export const createCategory = (userId, token, category) => {
     // console.log(user.name, user.email, user.password);
     // use return before fetch otherwise TypeError: Cannot read property 'then' of undefined

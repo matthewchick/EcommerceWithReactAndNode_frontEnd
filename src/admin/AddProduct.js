@@ -47,7 +47,7 @@ const AddProduct = () => {
 
     useEffect(() => {
         init();
-    }, []);
+    }, [init]);
 
     // It is a high order function
     const handleChange = name => event => {
