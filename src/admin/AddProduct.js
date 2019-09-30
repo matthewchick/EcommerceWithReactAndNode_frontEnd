@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth/Auth';
-import { createProduct } from './apiAdmin';
+import { createProduct, getCategories } from './apiAdmin';
 
 const AddProduct = () => {
 
@@ -25,15 +25,7 @@ const AddProduct = () => {
 
     })
 
-    const {
-        name,
-        description,
-        price,
-        categories,
-        category,
-        shipping,
-        quantity,
-        photo,
+    const { name, description, price, categories, category, shipping, quantity, photo,
         loading,
         error,
         createdProduct,
@@ -41,10 +33,21 @@ const AddProduct = () => {
         formData
     } = values;
 
+    // load categories and set form data
+    const init = () => {
+        getCategories().then(data => {
+            if (data.error) {
+                setValues({...values, error: data.error})
+            } else {
+                setValues({...values, categories: data, formData: new FormData()})
+                //console.log('values', {...values});
+            }
+        });
+    };
+
     useEffect(() => {
-        setValues({...values, formData: new FormData()})
-        //console.log('values', {...values})
-    }, [])
+        init();
+    }, []);
 
     // It is a high order function
     const handleChange = name => event => {
@@ -62,6 +65,7 @@ const AddProduct = () => {
             if (data.error) {
                 setValues({...values, error: data.error})
             } else {
+                // reset the form
                 setValues({...values, name: "", description: "", photo: "", price: "", quantity: "", loading: false, createdProduct: data.name })
             }
         })
@@ -90,6 +94,7 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted">Shipping</label>
                 <select onChange={handleChange('shipping')} className="form-control" > 
+                <option>Please select</option>
                     <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select>         
@@ -97,8 +102,8 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted">Category</label>
                 <select onChange={handleChange('category')} className="form-control" > 
-                    <option value="5d87f42b4845b213e261b647">PHP</option>
-                    <option value="5d87f4eb4845b213e261b648">Python</option>
+                <option>Please select</option>
+                {categories && categories.map((c, i) => (<option key={i} value={c._id}>{c.name}</option>))}
                 </select>         
             </div>
             <div className="form-group">
@@ -109,14 +114,33 @@ const AddProduct = () => {
                 Create Product
             </button>           
         </form>
+    );
+
+    // component functions - if use {} has no-unused-expression
+    const showError = () => (
+       <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+       </div>
+    )
+
+    const showSuccess = () => (
+        <div className="alert alert-info" style={{display: createdProduct ? '' : 'none'}}>
+             <h2>{`${createdProduct}`} is created!</h2>
+        </div>
+    )
+
+    const showLoading = () => (
+        loading && (<div className="alert alert-success"><h2>Loading...</h2></div>)
     )
 
     return (
         <Layout title="Add a new product" description={`G'day ${user.name}!`} >   
             <div className="row">      
                 <div className="col-md-8 offset-md-2">
-                    {newPostForm()}
-                    
+                    {showLoading()}
+                    {showSuccess()}
+                    {showError()}
+                    {newPostForm()} 
                 </div>         
             </div>   
         </Layout>
