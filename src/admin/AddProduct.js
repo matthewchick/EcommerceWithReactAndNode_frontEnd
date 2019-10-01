@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Layout from '../core/Layout';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth/Auth';
@@ -32,19 +32,19 @@ const AddProduct = () => {
         redirectToProfile,
         formData
     } = values;
-
+    
     // load categories and set form data
-    const init = () => {
+    const init = useCallback(() => {
         getCategories().then(data => {
             if (data.error) {
                 setValues({...values, error: data.error})
             } else {
-                setValues({...values, categories: data, formData: new FormData()})
-                //console.log('values', {...values});
+                //console.log('data', {data});
+                setValues({...values, categories: data.category, formData: new FormData()})              
             }
         });
-    };
-
+    },[values]);
+    
     useEffect(() => {
         init();
     }, [init]);

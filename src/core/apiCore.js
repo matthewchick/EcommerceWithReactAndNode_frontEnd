@@ -8,7 +8,6 @@ export const getProducts = (sortBy) => {
         //console.log('Categories', response.json());
         return response.json();
     })
-    .catch(err => {
-        console.log(err);
-    });
+    .catch(err => console.log(err));
 };
+
