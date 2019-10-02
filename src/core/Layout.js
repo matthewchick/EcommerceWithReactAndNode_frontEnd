@@ -1,6 +1,7 @@
 //Layout Component
 import React from 'react';
 import Menu from './NavMenu';
+import "../styles.css";
 
 /**
  * put title, description, className and children in the props
